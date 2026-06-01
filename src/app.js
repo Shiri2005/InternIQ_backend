@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 
 const userRoutes = require("./routes/userRoutes");
@@ -13,6 +14,21 @@ const aiRoutes = require("./routes/aiRoutes");
 
 app.use(cors());
 app.use(express.json());
+
+const studyMaterialsRoot = path.join(__dirname, "..", "study-materials");
+app.use(
+  "/study-materials",
+  express.static(studyMaterialsRoot, {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".pdf")) {
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `inline; filename="${path.basename(filePath)}"`);
+        res.setHeader("X-Content-Type-Options", "nosniff");
+        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+      }
+    }
+  })
+);
 
 // Routes
 app.use("/api/users", userRoutes);
