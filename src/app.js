@@ -24,6 +24,16 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/study-materials", studyMaterialRoutes);
 app.use("/api/ai", aiRoutes);
+// Backward-compatible aliases for cached frontend bundles that still call legacy root paths.
+app.use("/users", userRoutes);
+app.use("/quiz", quizRoutes);
+app.use("/quizzes", quizRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/invites", inviteRoutes);
+app.use("/projects", projectRoutes);
+app.use("/submissions", submissionRoutes);
+app.use("/study-materials", studyMaterialRoutes);
+app.use("/ai", aiRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.send("Cynaris Backend Running");
